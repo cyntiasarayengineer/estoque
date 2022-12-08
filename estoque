@@ -1,41 +1,87 @@
-using System;
-using System.Globalization;
-
-namespace Estoque
+namespace MyApplication
 {
-    class Estoque
+    class Program
     {
-        public string Produto { get; set; }
-        public object PrecoUnidade { get; set; }
-        public string Quantidade { get; set; }
-
         static void Main(string[] args)
         {
-            string Produto = "TV";
-            double PrecoUnidade = 900;
-            int Quantidade = 10;
+            Produto p = new Produto();
 
-            Console.WriteLine($"Produto: {Produto} | Preço Unitário: {PrecoUnidade} | Quantidade: {Quantidade}");
-            Console.WriteLine($"Total em Estoque: {PrecoUnidade * Quantidade}");
 
-            // Tentativa de criar o ValorTotalEmEstoque, adicionarProdutos e RemoverProdutos
+            Console.WriteLine("INSIRA OS DADOS DO PRODUTO");
+            Console.WriteLine();
 
-            static double ValorTotalEmEstoque(int Quantidade)
-            {
-                return PrecoUnidade * Quantidade;
-                Console.WriteLine($"{ValorTotalEmEstoque}");
+            // Nome do Produto
+            Console.Write("Nome: ");
+            p.Nome = Console.ReadLine();
 
-            }
 
-            void AdicionarProdutos(int quantidade)
-            {
-                Quantidade += quantidade;
-            }
+            // Valor unitário do Produto
+            Console.Write("Valor Unitário: ");
+            p.Preco = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
-            void RemoverProdutos(int quantidade)
-            {
-                Quantidade -= quantidade;
-            }
+            // Quantidade do Produto
+            Console.Write("Quantidade no estoque: ");
+            p.Quantidade = int.Parse(Console.ReadLine());
+
+            // Exibição dos dados
+            Console.WriteLine($"Dados do Produto: {p}");
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------------------");
+
+
+
+            // Adicionar Produto (quantidade)
+            Console.WriteLine();
+            Console.WriteLine("Digite o número de produtos a ser adicionado no estoque: ");
+            int quantidade = int.Parse(Console.ReadLine());
+            p.AdicionarProdutos(quantidade);
+            Console.WriteLine($"Dados atualizados: {p}");
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------------------");
+
+            // Remove Produto (quantidade)
+            Console.WriteLine();
+            Console.WriteLine("Digite o número de produtos a serem removidos no estoque: ");
+            quantidade = int.Parse(Console.ReadLine());
+            p.RemoverProdutos(quantidade);
+            Console.WriteLine($"Dados atualizados: {p}");
+            Console.WriteLine();
+            Console.WriteLine("------------------------------------------------------------------");
+        }
+    }
+}
+
+namespace MyApplication
+{
+    class Produto
+    {
+        public string Nome;
+        public double Preco;
+        public int Quantidade;
+
+        public double ValorTotalEmEstoque()
+        {
+            return Preco * Quantidade;
+        }
+
+        public void AdicionarProdutos(int quantidade)
+        {
+            Quantidade = Quantidade + quantidade;
+        }
+
+        public void RemoverProdutos(int quantidade)
+        {
+            Quantidade = Quantidade - quantidade;
+        }
+
+        // Exibição final dos valores
+        public override string ToString()
+        {
+            return Nome + " | R$ " + Preco.ToString("F2", CultureInfo.InvariantCulture)
+            + " | "
+            + Quantidade
+            + " unidades | Total: R$ "
+            + ValorTotalEmEstoque().ToString("F2", CultureInfo.InvariantCulture);
         }
     }
 }
